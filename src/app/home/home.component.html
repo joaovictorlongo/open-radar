@@ -1,0 +1,13 @@
+<ActionBar title="IPMet Radar" class="bg-blue-600 text-white">
+</ActionBar>
+
+<GridLayout rows="*, auto, *, auto" class="p-8">
+  <StackLayout row="0" verticalAlignment="bottom" class="mb-4">
+    <Label text="IPMet Radar" class="text-4xl font-bold text-center text-blue-600"></Label>
+    <Label text="Centro de Meteorologia de Bauru - FC/Unesp" class="text-sm text-center text-gray-500 mt-2" textWrap="true"></Label>
+  </StackLayout>
+
+  <Button row="1" text="Abrir Radar" (tap)="openMap()" class="bg-blue-600 text-white text-lg font-bold p-4 rounded-lg"></Button>
+
+  <Label row="3" textWrap="true" class="text-xs text-center text-gray-400 p-4" text="Dados de radar meteorológico, satélite, raios e estações do IPMet/UNESP. Toque em Abrir Radar para começar."></Label>
+</GridLayout>

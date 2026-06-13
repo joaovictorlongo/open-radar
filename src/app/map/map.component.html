@@ -1,0 +1,65 @@
+<GridLayout rows="*, auto">
+  <GridLayout row="0">
+    <WebView #mapWV (loadFinished)="onLoadFinished($event)"></WebView>
+
+    <StackLayout verticalAlignment="center" horizontalAlignment="right" class="p-2">
+      <StackLayout class="bg-black/70 rounded-lg p-2">
+        <Label text="📍" fontSize="18" class="text-white text-center" (tap)="requestLocation()"></Label>
+      </StackLayout>
+      <StackLayout height="16"></StackLayout>
+      <StackLayout class="bg-black/70 rounded-lg p-2" (tap)="refreshAll()">
+        <Label text="↻" fontSize="20" class="text-white text-center"></Label>
+      </StackLayout>
+      <StackLayout height="16"></StackLayout>
+      <StackLayout class="bg-black/70 rounded-lg p-2" (tap)="toggleAnimation()">
+        <Label [text]="autoRefresh ? '⏸' : '▶'" fontSize="18" class="text-white text-center"></Label>
+      </StackLayout>
+    </StackLayout>
+
+    <ActivityIndicator
+      [busy]="loading"
+      [visibility]="loading ? 'visible' : 'collapse'"
+      horizontalAlignment="center"
+      verticalAlignment="center"
+      width="48" height="48"
+      color="#4488ff">
+    </ActivityIndicator>
+
+    <Label
+      [text]="errorMsg"
+      [visibility]="errorMsg ? 'visible' : 'collapse'"
+      class="text-center p-4"
+      horizontalAlignment="center"
+      verticalAlignment="center"
+      backgroundColor="#ffe0e0">
+    </Label>
+  </GridLayout>
+
+  <ScrollView row="1" orientation="horizontal" class="bg-black p-2">
+    <StackLayout orientation="horizontal">
+      <ng-template ngFor let-layer [ngForOf]="wmsLayers">
+        <StackLayout
+          class="p-2 m-1 rounded"
+          [class.bg-blue-600]="layer.visible"
+          [class.bg-gray-600]="!layer.visible"
+          (tap)="toggleWms(layer)">
+          <Label [text]="layer.icon" fontSize="14" textAlignment="center"></Label>
+          <Label [text]="layer.label" fontSize="10" textAlignment="center" class="text-white"></Label>
+        </StackLayout>
+      </ng-template>
+
+      <StackLayout class="bg-gray-400 m-1" width="1" height="40"></StackLayout>
+
+      <ng-template ngFor let-layer [ngForOf]="layers">
+        <StackLayout
+          class="p-2 m-1 rounded"
+          [class.bg-blue-600]="layer.visible"
+          [class.bg-gray-600]="!layer.visible"
+          (tap)="toggleLayer(layer)">
+          <Label [text]="layer.icon" fontSize="14" textAlignment="center"></Label>
+          <Label [text]="layer.label" fontSize="10" textAlignment="center" class="text-white"></Label>
+        </StackLayout>
+      </ng-template>
+    </StackLayout>
+  </ScrollView>
+</GridLayout>
