@@ -1,0 +1,41 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+  <!-- Outer ring -->
+  <path
+      android:pathData="M60,8A52,52 0,1 1,8 60A52,52 0,1 1 60,8Z"
+      android:strokeWidth="3"
+      android:strokeColor="#00E676"
+      android:fillColor="#00000000"/>
+
+  <!-- Sweep area -->
+  <path
+      android:pathData="M60,60L60,8A52,52 0,0 1,96.8 23.2Z"
+      android:fillColor="#00E676"
+      android:fillAlpha="0.15"/>
+
+  <!-- Sweep line -->
+  <path
+      android:pathData="M60,60L96.8,23.2"
+      android:strokeWidth="2.5"
+      android:strokeColor="#00E676"
+      android:strokeLineCap="round"/>
+
+  <!-- Center dot -->
+  <path
+      android:pathData="M60,60m-4,0a4,4 0,1 1,8 0a4,4 0,1 1 -8,0"
+      android:fillColor="#00E676"/>
+
+  <!-- Blips -->
+  <path
+      android:pathData="M50,28m-3,0a3,3 0,1 1,6 0a3,3 0,1 1 -6,0"
+      android:fillColor="#FF1744"/>
+  <path
+      android:pathData="M78,44m-3,0a3,3 0,1 1,6 0a3,3 0,1 1 -6,0"
+      android:fillColor="#FF9100"/>
+  <path
+      android:pathData="M80,72m-3,0a3,3 0,1 1,6 0a3,3 0,1 1 -6,0"
+      android:fillColor="#FF1744"/>
+</vector>
