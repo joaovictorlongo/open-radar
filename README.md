@@ -1,12 +1,12 @@
 # Open Radar
 
-[![Platform](https://img.shields.io/badge/platform-Android-brightgreen.svg)]()
+[![Platform](https://img.shields.io/badge/platform-Android%20%7C%20iOS-brightgreen.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Angular](https://img.shields.io/badge/Angular-20-red.svg)](https://angular.dev)
 [![NativeScript](https://img.shields.io/badge/NativeScript-9.0-blue.svg)](https://nativescript.org)
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-green.svg)](https://leafletjs.com)
 
-**Open Radar** é um aplicativo mobile nativo Android de código aberto que exibe dados meteorológicos em tempo real do [IPMet](https://www.ipmetradar.com.br) — radar meteorológico, satélite GOES-19, raios, estações METAR/INMET e estimativa de chuva acumulada — em um mapa interativo com animação e geolocalização.
+**Open Radar** é um aplicativo mobile nativo Android e iOS de código aberto que exibe dados meteorológicos em tempo real do [IPMet](https://www.ipmetradar.com.br) — radar meteorológico, satélite GOES-19, raios, estações METAR/INMET e estimativa de chuva acumulada — em um mapa interativo com animação e geolocalização.
 
 ## Funcionalidades
 
@@ -34,12 +34,13 @@
 | Camada | Tecnologia |
 |--------|-----------|
 | Framework | Angular 20 (standalone components) |
-| Runtime Mobile | NativeScript 9.0 |
+| Runtime Mobile | NativeScript 9.0 (Android + iOS) |
 | Mapa | Leaflet 1.9.4 via WebView |
 | Geolocalização | `@nativescript/geolocation` |
 | HTTP | `@nativescript/core/http` (com `Referer` header) |
 | Estilos | Tailwind CSS (NativeScript) |
 | Build | Webpack 5 |
+
 
 ## Como Executar
 
@@ -47,16 +48,18 @@
 # Instalar dependências
 npm install
 
-# Adicionar plataforma Android
+# Android
 ns platform add android
-
-# Executar em dispositivo/emulador
 ns run android
+
+# iOS
+ns platform add ios
+ns run ios
 ```
 
 ## Arquitetura
 
-O mapa é renderizado dentro de uma **WebView** que carrega um HTML inline contendo Leaflet. A comunicação entre o código TypeScript do Angular e o mapa JavaScript é feita via `evaluateJavascript`.
+O mapa é renderizado dentro de uma **WebView** que carrega um HTML inline contendo Leaflet. A comunicação entre o código TypeScript do Angular e o mapa JavaScript é feita via `evaluateJavascript` (Android) / `evaluateJavaScriptCompletionHandler` (iOS).
 
 As imagens (radar, satélite, chuva acumulada) são baixadas **nativamente** pelo HTTP client do NativeScript (com header `Referer` obrigatório pelo MapServer 8.0+) e expostas ao WebView via URL `file://`.
 
@@ -76,7 +79,6 @@ src/
 ├── main.ts
 └── polyfills.ts
 ```
-
 ## API de Dados
 
 | Endpoint | Descrição |

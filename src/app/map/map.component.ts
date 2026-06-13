@@ -94,13 +94,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private execJs(js: string): void {
     if (!this.webView) return;
-    const nativeView = (this.webView as any).nativeViewProtected;
-    if (!nativeView) return;
     try {
       if (isAndroid) {
-        nativeView.evaluateJavascript(js, null);
+        this.webView.android.evaluateJavascript(js, null);
       } else if (isIOS) {
-        nativeView.evaluateJavaScript(js, null);
+        this.webView.ios.evaluateJavaScriptCompletionHandler(js, () => {});
       }
     } catch (err) {
       console.error('execJs error:', err);
