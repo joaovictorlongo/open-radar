@@ -1,11 +1,12 @@
 # Open Radar
 
 [![Platform](https://img.shields.io/badge/platform-Android-brightgreen.svg)]()
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Angular](https://img.shields.io/badge/Angular-20-red.svg)](https://angular.dev)
 [![NativeScript](https://img.shields.io/badge/NativeScript-9.0-blue.svg)](https://nativescript.org)
 [![Leaflet](https://img.shields.io/badge/Leaflet-1.9.4-green.svg)](https://leafletjs.com)
 
-**Open Radar** é um aplicativo mobile nativo Android que exibe dados meteorológicos em tempo real do [IPMet](https://www.ipmetradar.com.br) — radar meteorológico, satélite GOES-19, raios, estações METAR/INMET e estimativa de chuva acumulada — em um mapa interativo com animação e geolocalização.
+**Open Radar** é um aplicativo mobile nativo Android de código aberto que exibe dados meteorológicos em tempo real do [IPMet](https://www.ipmetradar.com.br) — radar meteorológico, satélite GOES-19, raios, estações METAR/INMET e estimativa de chuva acumulada — em um mapa interativo com animação e geolocalização.
 
 ## Funcionalidades
 
@@ -85,4 +86,6 @@ src/
 
 ## Licença
 
-Este projeto é privado. Dados meteorológicos © [IPMet](https://www.ipmetradar.com.br) — Centro de Meteorologia de Bauru, FC/Unesp.
+MIT © [João Longo](https://github.com/anomalyco)
+
+Dados meteorológicos fornecidos pelo [IPMet](https://www.ipmetradar.com.br) — Centro de Meteorologia de Bauru, FC/Unesp.
