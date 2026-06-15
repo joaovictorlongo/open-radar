@@ -12,37 +12,41 @@
       </StackLayout>
       <StackLayout height="16"></StackLayout>
       <StackLayout class="bg-black/70 rounded-lg p-2" (tap)="toggleAnimation()">
-        <Label [text]="autoRefresh ? '⏸' : '▶'" fontSize="18" class="text-white text-center"></Label>
+        <Label [text]="animation.isPlaying() ? '⏸' : '▶'" fontSize="18" class="text-white text-center"></Label>
       </StackLayout>
     </StackLayout>
 
     <ActivityIndicator
-      [busy]="loading"
-      [visibility]="loading ? 'visible' : 'collapse'"
+      [busy]="loading()"
+      [visibility]="loading() ? 'visible' : 'collapse'"
       horizontalAlignment="center"
       verticalAlignment="center"
-      width="48" height="48"
-      color="#4488ff">
+      width="48"
+      height="48"
+      color="#4488ff"
+    >
     </ActivityIndicator>
 
     <Label
-      [text]="errorMsg"
-      [visibility]="errorMsg ? 'visible' : 'collapse'"
+      [text]="errorMsg()"
+      [visibility]="errorMsg() ? 'visible' : 'collapse'"
       class="text-center p-4"
       horizontalAlignment="center"
       verticalAlignment="center"
-      backgroundColor="#ffe0e0">
+      backgroundColor="#ffe0e0"
+    >
     </Label>
   </GridLayout>
 
   <ScrollView row="1" orientation="horizontal" class="bg-black p-2">
     <StackLayout orientation="horizontal">
-      <ng-template ngFor let-layer [ngForOf]="wmsLayers">
+      <ng-template ngFor let-layer [ngForOf]="layerState.wmsLayers()">
         <StackLayout
           class="p-2 m-1 rounded"
           [class.bg-blue-600]="layer.visible"
           [class.bg-gray-600]="!layer.visible"
-          (tap)="toggleWms(layer)">
+          (tap)="toggleWms(layer.id)"
+        >
           <Label [text]="layer.icon" fontSize="14" textAlignment="center"></Label>
           <Label [text]="layer.label" fontSize="10" textAlignment="center" class="text-white"></Label>
         </StackLayout>
@@ -50,12 +54,13 @@
 
       <StackLayout class="bg-gray-400 m-1" width="1" height="40"></StackLayout>
 
-      <ng-template ngFor let-layer [ngForOf]="layers">
+      <ng-template ngFor let-layer [ngForOf]="layerState.layers()">
         <StackLayout
           class="p-2 m-1 rounded"
           [class.bg-blue-600]="layer.visible"
           [class.bg-gray-600]="!layer.visible"
-          (tap)="toggleLayer(layer)">
+          (tap)="toggleLayer(layer.id)"
+        >
           <Label [text]="layer.icon" fontSize="14" textAlignment="center"></Label>
           <Label [text]="layer.label" fontSize="10" textAlignment="center" class="text-white"></Label>
         </StackLayout>
