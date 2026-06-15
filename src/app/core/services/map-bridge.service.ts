@@ -1,6 +1,15 @@
 import { Injectable, signal } from '@angular/core';
 import { WebView, isAndroid, isIOS } from '@nativescript/core';
 import { MapBounds } from '../models/map-bounds.model';
+import {
+  MapMessage,
+  MapMessageAction,
+  SetLayerVisibilityPayload,
+  UpdateGeojsonLayerPayload,
+  UpdateRadarImagePayload,
+  UpdateTimestampPayload,
+  SetMapCenterPayload,
+} from '../models/map-message.model';
 
 @Injectable({ providedIn: 'root' })
 export class MapBridgeService {
@@ -26,55 +35,52 @@ export class MapBridgeService {
   }
 
   setRadarVisibility(visible: boolean): void {
-    this.enqueue(() => this.execJs(`window.setRadarVisibility(${visible})`));
+    this.send('setRadarVisibility', { visible });
   }
 
   setSatVisibility(visible: boolean): void {
-    this.enqueue(() => this.execJs(`window.setSatVisibility(${visible})`));
+    this.send('setSatVisibility', { visible });
   }
 
   setAcumVisibility(visible: boolean): void {
-    this.enqueue(() => this.execJs(`window.setAcumVisibility(${visible})`));
+    this.send('setAcumVisibility', { visible });
   }
 
   setLayerVisibility(layerId: string, visible: boolean): void {
-    this.enqueue(() => this.execJs(`window.setLayerVisibility('${layerId}', ${visible})`));
+    this.send('setLayerVisibility', { layerId, visible } as SetLayerVisibilityPayload);
   }
 
   updateRadarImage(filePath: string, bounds: MapBounds): void {
-    this.enqueue(() =>
-      this.execJs(
-        `window.updateRadarImage("${filePath}", ${bounds.south}, ${bounds.west}, ${bounds.north}, ${bounds.east})`
-      )
-    );
+    this.send('updateRadarImage', { filePath, bounds } as UpdateRadarImagePayload);
   }
 
   updateSatelliteImage(filePath: string): void {
-    this.enqueue(() => this.execJs(`window.updateSatelliteImage("${filePath}")`));
+    this.send('updateSatelliteImage', { filePath });
   }
 
   updateAcumImage(filePath: string, bounds: MapBounds): void {
-    this.enqueue(() =>
-      this.execJs(
-        `window.updateAcumImage("${filePath}", ${bounds.south}, ${bounds.west}, ${bounds.north}, ${bounds.east})`
-      )
-    );
+    this.send('updateAcumImage', { filePath, bounds } as UpdateRadarImagePayload);
   }
 
   updateGeojsonLayer(layerId: string, data: unknown): void {
-    this.enqueue(() => this.execJs(`window.updateGeojsonLayer('${layerId}', ${this.serializeData(data)})`));
+    this.send('updateGeojsonLayer', { layerId, data } as UpdateGeojsonLayerPayload);
   }
 
   updateTimestamp(text: string): void {
-    this.enqueue(() => this.execJs(`window.updateTimestamp('${this.escapeString(text)}')`));
+    this.send('updateTimestamp', { text } as UpdateTimestampPayload);
   }
 
   setMapCenter(lat: number, lng: number, zoom = 7): void {
-    this.enqueue(() => this.execJs(`window.setMapCenter(${lat.toFixed(4)}, ${lng.toFixed(4)}, ${zoom})`));
+    this.send('setMapCenter', { lat, lng, zoom } as SetMapCenterPayload);
   }
 
   stopRadarAnim(): void {
-    this.enqueue(() => this.execJs('window.stopRadarAnim()'));
+    this.send('stopRadarAnim', {});
+  }
+
+  private send(action: MapMessageAction, payload: unknown): void {
+    const message: MapMessage = { action, payload };
+    this.enqueue(() => this.execMessage(message));
   }
 
   private enqueue(command: () => void): void {
@@ -92,8 +98,21 @@ export class MapBridgeService {
     }
   }
 
-  private execJs(js: string): void {
+  private execMessage(message: MapMessage): void {
     if (!this.webView) return;
+
+    const json = JSON.stringify(message);
+    // Escapa a string JSON para ser injetada como argumento string dentro de
+    // JSON.parse('...'). Isso evita concatenação direta de valores dinâmicos.
+    const escaped = json
+      .replace(/\\/g, '\\\\')
+      .replace(/'/g, "\\'")
+      .replace(/</g, '\\u003c')
+      .replace(/>/g, '\\u003e')
+      .replace(/&/g, '\\u0026');
+
+    const js = `window.handleMapMessage(JSON.parse('${escaped}'))`;
+
     try {
       if (isAndroid) {
         this.webView.android.evaluateJavascript(js, null);
@@ -101,16 +120,7 @@ export class MapBridgeService {
         this.webView.ios.evaluateJavaScriptCompletionHandler(js, () => {});
       }
     } catch (err) {
-      console.error('[MapBridge] execJs error:', err);
+      console.error('[MapBridge] execMessage error:', err);
     }
-  }
-
-  private serializeData(data: unknown): string {
-    const json = JSON.stringify(data ?? null);
-    return json.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-  }
-
-  private escapeString(text: string): string {
-    return text.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
   }
 }

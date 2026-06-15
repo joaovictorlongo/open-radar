@@ -21,8 +21,10 @@
       [visibility]="loading() ? 'visible' : 'collapse'"
       horizontalAlignment="center"
       verticalAlignment="center"
-      width="48" height="48"
-      color="#4488ff">
+      width="48"
+      height="48"
+      color="#4488ff"
+    >
     </ActivityIndicator>
 
     <Label
@@ -31,7 +33,8 @@
       class="text-center p-4"
       horizontalAlignment="center"
       verticalAlignment="center"
-      backgroundColor="#ffe0e0">
+      backgroundColor="#ffe0e0"
+    >
     </Label>
   </GridLayout>
 
@@ -42,7 +45,8 @@
           class="p-2 m-1 rounded"
           [class.bg-blue-600]="layer.visible"
           [class.bg-gray-600]="!layer.visible"
-          (tap)="toggleWms(layer.id)">
+          (tap)="toggleWms(layer.id)"
+        >
           <Label [text]="layer.icon" fontSize="14" textAlignment="center"></Label>
           <Label [text]="layer.label" fontSize="10" textAlignment="center" class="text-white"></Label>
         </StackLayout>
@@ -55,7 +59,8 @@
           class="p-2 m-1 rounded"
           [class.bg-blue-600]="layer.visible"
           [class.bg-gray-600]="!layer.visible"
-          (tap)="toggleLayer(layer.id)">
+          (tap)="toggleLayer(layer.id)"
+        >
           <Label [text]="layer.icon" fontSize="14" textAlignment="center"></Label>
           <Label [text]="layer.label" fontSize="10" textAlignment="center" class="text-white"></Label>
         </StackLayout>

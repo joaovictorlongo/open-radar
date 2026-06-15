@@ -31,9 +31,7 @@ export class LayerStateService {
   }
 
   toggleLayer(id: string): void {
-    this._layers.update(layers =>
-      layers.map(l => (l.id === id ? { ...l, visible: !l.visible } : l))
-    );
+    this._layers.update(layers => layers.map(l => (l.id === id ? { ...l, visible: !l.visible } : l)));
   }
 
   toggleWms(id: string): void {

@@ -6,6 +6,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noEmitHelpers": true,
+    "importHelpers": true,
     "noEmitOnError": true,
     "skipLibCheck": true,
     "lib": ["ESNext", "dom"],
@@ -20,5 +21,5 @@
   },
   "include": ["src/**/*.ts"],
   "files": ["./src/main.ts", "./references.d.ts", "./src/polyfills.ts"],
-  "exclude": ["node_modules", "platforms", "e2e"]
+  "exclude": ["node_modules", "platforms", "e2e", "src/**/*.spec.ts", "src/testing/**"]
 }

@@ -51,21 +51,13 @@ export class RadarImageService {
     return this.downloadImage(url, filePath, bounds);
   }
 
-  private async downloadRadar(
-    mapFile: string,
-    bounds: MapBounds,
-    suffix: string
-  ): Promise<RadarImageResult | null> {
+  private async downloadRadar(mapFile: string, bounds: MapBounds, suffix: string): Promise<RadarImageResult | null> {
     const url = WmsUrlBuilder.build({ mapFile, bounds });
     const filePath = path.join(this.tempFolder.path, `radar_${suffix}.png`);
     return this.downloadImage(url, filePath, bounds);
   }
 
-  private async downloadImage(
-    url: string,
-    filePath: string,
-    bounds: MapBounds
-  ): Promise<RadarImageResult | null> {
+  private async downloadImage(url: string, filePath: string, bounds: MapBounds): Promise<RadarImageResult | null> {
     try {
       const response = await this.http.request({
         url,

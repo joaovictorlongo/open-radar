@@ -54,9 +54,7 @@ export class RadarAnimationService {
   }
 
   private async preloadFrames(bounds: MapBounds): Promise<void> {
-    const results = await Promise.all(
-      this.frames.map(ts => this.radarImage.loadRadarFrame(ts, bounds))
-    );
+    const results = await Promise.all(this.frames.map(ts => this.radarImage.loadRadarFrame(ts, bounds)));
     this.preloadedFrames = results.map((path, idx) => path ?? results[idx - 1] ?? '');
   }
 
