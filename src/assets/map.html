@@ -1,5 +1,4 @@
-export function getMapHtml(): string {
-  return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -323,17 +322,6 @@ export function getMapHtml(): string {
     if (!layer.visible) map.removeLayer(layer.group);
   };
 
-  window.setRadarVisibility = function(visible) {
-    console.log('[Leaflet] setRadarVisibility:', visible);
-    if (visible) {
-      if (radarLayer) map.addLayer(radarLayer);
-      document.getElementById('legend').classList.add('visible');
-    } else {
-      if (radarLayer) map.removeLayer(radarLayer);
-      document.getElementById('legend').classList.remove('visible');
-    }
-  };
-
   window.setAcumVisibility = function(visible) {
     console.log('[Leaflet] setAcumVisibility:', visible);
     if (visible) {
@@ -381,5 +369,4 @@ export function getMapHtml(): string {
   });
 </script>
 </body>
-</html>`;
-}
+</html>

@@ -16,9 +16,9 @@
     }
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": false
+    "fullTemplateTypeCheck": true
   },
-  "include": ["src/tests/**/*.ts", "src/**/*.ios.ts", "src/**/*.android.ts"],
+  "include": ["src/**/*.ts"],
   "files": ["./src/main.ts", "./references.d.ts", "./src/polyfills.ts"],
   "exclude": ["node_modules", "platforms", "e2e"]
 }
